@@ -342,7 +342,7 @@ function App() {
                                 <ul>
                                     <li>What is the amount of money they are going to get as a survivor benefit</li>
                                     <li>
-                                        What are the my liabilities that will eat into the survivor benefit
+                                        What are my liabilities that will eat into the survivor benefit
                                     </li>
                                     <li>
                                         How is the survivor benefit taxed so that you know what exactly will be left with
