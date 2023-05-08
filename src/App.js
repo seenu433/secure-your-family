@@ -12,6 +12,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -44,6 +45,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+
 const theme = createTheme({
     palette: {
         secondary: {
@@ -51,7 +53,6 @@ const theme = createTheme({
         },
     },
 });
-
 
 function stringToColor(string) {
     let hash = 0;
@@ -73,145 +74,85 @@ function stringToColor(string) {
     return color;
 }
 
-function stringAvatar(name) {
+function stringAvatar(firstName, lastName) {
     return {
         sx: {
-            bgcolor: stringToColor(name),
+            bgcolor: stringToColor(firstName),
         },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        children: `${firstName[0]}${lastName[0]}`,
     };
 }
-
-const comments = [
-    {
-        title: "Brunch this weekend?",
-        author: "Ali Connors",
-        comment: "I'll be in your neighborhood doing errands this abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd abcd …"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    },
-    {
-        title: "Summer BBQ",
-        author: "Alex Jennifer ",
-        comment: " Wish I could come, but I'm out of town this…"
-    },
-    {
-        title: "Brunch this weekend?",
-        author: "Srini P",
-        comment: "Do you have Paris recommendations? Have you ever…"
-    }]
 
 function App() {
 
     const [value, setValue] = React.useState('1');
+
+    const [comments, setComments] = React.useState([]);
+    const [comment, setComment] = React.useState({
+        firstName: {
+            value: '',
+            error: false,
+            errorMessage: 'First name is required'
+        },
+        lastName: {
+            value: '',
+            error: false,
+            errorMessage: 'Last name is required'
+        },
+        title: {
+            value: '',
+            error: false,
+            errorMessage: 'Title is required'
+        },
+        text: {
+            value: '',
+            error: false,
+            errorMessage: 'Comment is required'
+        }
+    });
+
+    const handleTextChange = (prop) => (event) => {
+        if (prop === 'firstName') {
+            setComment({ ...comment, firstName: { ...comment.firstName, value: event.target.value } });
+        } else if (prop === 'lastName') {
+            setComment({ ...comment, lastName: { ...comment.lastName, value: event.target.value } });
+        } else if (prop === 'title') {
+            setComment({ ...comment, title: { ...comment.title, value: event.target.value } });
+        }
+        else {
+            setComment({ ...comment, text: { ...comment.text, value: event.target.value } });
+        }
+    };
+
+    function handleSubmitComment() {
+        //return ((str || '').match(/[^\w\\.@-]/g) || []).length
+
+        var isValid = true;
+        if (comment.firstName.value === '' || comment.lastName.value === '' || comment.title.value === '' || comment.text.value === '') {
+            setComment({ ...comment, firstName: { ...comment.firstName, error: comment.firstName.value === '' }, lastName: { ...comment.lastName, error: comment.lastName.value === '' }, title: { ...comment.title, error: comment.title.value === '' }, text: { ...comment.text, error: comment.text.value === '' } });
+            isValid = false;
+        }
+
+        if (isValid) {
+
+            var validComment = {
+                firstName: comment.firstName.value,
+                lastName: comment.lastName.value,
+                title: comment.title.value,
+                text: comment.text.value
+            }
+
+            // Send data to the backend via POST
+            fetch('/api/comments', {  // Enter your IP address here
+
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify(validComment)
+            });
+
+            handleSubmitCommentClose();
+        }
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -231,6 +172,28 @@ function App() {
     };
 
     const handleSubmitCommentClose = () => {
+
+        comment.firstName = {
+            value: '',
+            error: false,
+            errorMessage: ''
+        };
+        comment.lastName = {
+            value: '',
+            error: false,
+            errorMessage: ''
+        };
+        comment.title = {
+            value: '',
+            error: false,
+            errorMessage: ''
+        };
+        comment.text = {
+            value: '',
+            error: false,
+            errorMessage: ''
+        };
+
         setOpenSubmitCommentDialog(false);
     };
 
@@ -239,10 +202,21 @@ function App() {
     );
 
     const handleViewCommentOpen = () => {
+
+        fetch('/api/comments', {
+            method: 'GET',
+            mode: 'cors'
+        }).then(response => {
+            return response.json();
+        }).then(text => {
+            setComments(text);
+        });
+
         setOpenViewCommentDialog(true);
     };
 
     const handleViewCommentClose = () => {
+        setComments([]);
         setOpenViewCommentDialog(false);
     };
 
@@ -330,7 +304,6 @@ function App() {
                             <Grid container spacing={2}>
                                 <Grid item xs={4}>
                                     <Typography align="left" variant="subtitle2">
-                                        Secure Your Family
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={8}>
@@ -345,9 +318,11 @@ function App() {
                                             },
                                         }}
                                     >
-
                                         <Link underline="hover" sx={{ display: 'flex', alignItems: 'center' }} color="inherit" href="/">
                                             <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />Home
+                                        </Link>
+                                        <Link underline="hover" sx={{ display: 'flex', alignItems: 'center' }} color="inherit" href="/">
+                                            <AssessmentIcon sx={{ mr: 0.5 }} fontSize="inherit" />Assess
                                         </Link>
                                         <Link underline="hover" sx={{ display: 'flex', alignItems: 'center' }} color="inherit" href="/">
                                             <InfoIcon sx={{ mr: 0.5 }} fontSize="inherit" />About
@@ -387,6 +362,9 @@ function App() {
                                         <TabList
                                             onChange={handleChange}
                                             aria-label="lab API tabs example"
+                                            variant="scrollable"
+                                            scrollButtons
+                                            allowScrollButtonsMobile
                                         >
                                             <Tab
                                                 icon={<SavingsIcon />}
@@ -501,9 +479,15 @@ function App() {
                 </Container>
             </Box>
             <SpeedDial
+                FabProps={{ variant: "extended" }}
                 ariaLabel="SpeedDial tooltip example"
-                sx={{ position: "absolute", bottom: 16, right: 16 }}
-                icon={<ChatBubbleOutlineIcon />}
+                sx={{ position: "fixed", bottom: 16, right: 16 }}
+                icon={
+                    <Box sx={{ display: "flex" }}>
+                      <ChatBubbleOutlineIcon sx={{ mr: 0.5 }} />
+                      <Typography>Comments</Typography>
+                    </Box>
+                  }
                 onClose={handleClose}
                 onOpen={handleOpen}
                 open={open}
@@ -534,6 +518,11 @@ function App() {
                                 type="email"
                                 fullWidth
                                 variant="standard"
+                                onChange={handleTextChange("firstName")}
+                                inputProps={{ maxLength: 25 }}
+                                required={true}
+                                error={comment.firstName.error}
+                                helperText={comment.firstName.error && comment.firstName.errorMessage}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -545,6 +534,11 @@ function App() {
                                 type="email"
                                 fullWidth
                                 variant="standard"
+                                onChange={handleTextChange("lastName")}
+                                inputProps={{ maxLength: 25 }}
+                                required={true}
+                                error={comment.lastName.error}
+                                helperText={comment.lastName.error && comment.lastName.errorMessage}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -556,6 +550,11 @@ function App() {
                                 type="email"
                                 fullWidth
                                 variant="standard"
+                                onChange={handleTextChange("title")}
+                                inputProps={{ maxLength: 50 }}
+                                required={true}
+                                error={comment.title.error}
+                                helperText={comment.title.error && comment.title.errorMessage}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -567,13 +566,18 @@ function App() {
                                 multiline
                                 rows={4}
                                 variant="standard"
+                                onChange={handleTextChange("text")}
+                                inputProps={{ maxLength: 500 }}
+                                required={true}
+                                error={comment.text.error}
+                                helperText={comment.text.error && comment.text.errorMessage}
                             />
                         </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleSubmitCommentClose}>Cancel</Button>
-                    <Button onClick={handleSubmitCommentClose}>Submit</Button>
+                    <Button onClick={handleSubmitComment}>Submit</Button>
                 </DialogActions>
             </Dialog>
             <Dialog
@@ -592,14 +596,14 @@ function App() {
                     >
                         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
 
-                            {comments.map((comment) => (
+                            {comments.map((commentItem) => (
                                 <div>
                                     <ListItem alignItems="flex-start">
                                         <ListItemAvatar>
-                                            <Avatar  {...stringAvatar(comment.author)} />
+                                            <Avatar  {...stringAvatar(commentItem.firstName, commentItem.lastName)} />
                                         </ListItemAvatar>
                                         <ListItemText
-                                            primary={comment.title}
+                                            primary={commentItem.title}
                                             secondary={
                                                 <React.Fragment>
                                                     <Typography
@@ -608,8 +612,8 @@ function App() {
                                                         variant="body2"
                                                         color="text.primary"
                                                     >
-                                                        {comment.author}
-                                                    </Typography> - {comment.comment}
+                                                        {commentItem.firstName} {commentItem.lastName}
+                                                    </Typography> - {commentItem.text}
                                                 </React.Fragment>
                                             }
                                         />
