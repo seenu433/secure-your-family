@@ -99,7 +99,7 @@ namespace SecureYourFamily
         [FunctionName("CreateComment")]
         public static async Task<IActionResult> SubmitComment(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "comments")] HttpRequest req,
-            [Table(TableName, Connection = "TableConnection")] IAsyncCollector<CommentTableEntity> commentTable,
+            [Table(TableName, Connection = "SYF_TableConnection")] IAsyncCollector<CommentTableEntity> commentTable,
             ILogger log)
         {
             log.LogInformation("Creating a new todo list item");
@@ -118,7 +118,7 @@ namespace SecureYourFamily
         [FunctionName("GetComments")]
         public static async Task<IActionResult> GetComments(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "comments")] HttpRequest req,
-            [Table(TableName, Connection = "TableConnection")] TableClient commentTable,
+            [Table(TableName, Connection = "SYF_TableConnection")] TableClient commentTable,
             ILogger log)
         {
             // await todoTable.CreateIfNotExistsAsync();

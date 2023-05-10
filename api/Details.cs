@@ -28,9 +28,9 @@ namespace SecureYourFamily
     {
         public static Response<ChatCompletions> GetCompletion(string key, string category)
         {
-            var AOAI_ENDPOINT = Environment.GetEnvironmentVariable("AOAI_ENDPOINT");
-            var AOAI_KEY = Environment.GetEnvironmentVariable("AOAI_KEY");
-            var AOAI_DEPLOYMENTID = Environment.GetEnvironmentVariable("AOAI_DEPLOYMENTID");
+            var AOAI_ENDPOINT = Environment.GetEnvironmentVariable("SYF_AOAI_ENDPOINT");
+            var AOAI_KEY = Environment.GetEnvironmentVariable("SYF_AOAI_KEY");
+            var AOAI_DEPLOYMENTID = Environment.GetEnvironmentVariable("SYF_AOAI_DEPLOYMENTID");
 
             var endpoint = new Uri(AOAI_ENDPOINT);
             var credentials = new Azure.AzureKeyCredential(AOAI_KEY);
@@ -74,7 +74,7 @@ namespace SecureYourFamily
 
         public static string ReadFromBlob(string key, string category, string containerName, ILogger log)
         {
-            var storageConnection = Environment.GetEnvironmentVariable("StorageConnection");
+            var storageConnection = Environment.GetEnvironmentVariable("SYF_StorageConnection");
 
             BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnection);
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
