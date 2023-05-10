@@ -46,6 +46,10 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
+import Collapse from "@mui/material/Collapse";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 const theme = createTheme({
     palette: {
         secondary: {
@@ -85,8 +89,8 @@ function stringAvatar(firstName, lastName) {
 
 function App() {
 
-    const [value, setValue] = React.useState('1');
-
+    //Comments Functions - Start
+    //===================================================================================================
     const [comments, setComments] = React.useState([]);
     const [comment, setComment] = React.useState({
         firstName: {
@@ -153,10 +157,6 @@ function App() {
             handleSubmitCommentClose();
         }
     }
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -243,6 +243,133 @@ function App() {
         }
     ];
 
+    //===================================================================================================
+    //Comments Functions - End
+
+    //Tabs Functions - Start
+    //===================================================================================================
+
+    const [value, setValue] = React.useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        handleBenefitDetailsClose();
+        handleLiabilitiesDetailsClose();
+        handleExpensesDetailsClose();
+    };
+
+    const benefits = [
+        { id: "1", value: "Life Insurance" },
+        { id: "2", value: "Social Security" },
+        { id: "3", value: "401K" },
+        { id: "4", value: "IRA" },
+        { id: "5", value: "Savings Accounts" },
+        { id: "6", value: "Brokerage accounts" },
+        { id: "7", value: "HSA accounts" },
+        { id: "8", value: "FSA accounts" },
+        { id: "9", value: "Real Estate" },
+        { id: "10", value: "Accidental Death and Dismemberment" },
+        { id: "11", value: "Term insurance" },
+        { id: "12", value: "Mortgage Protection" }
+    ];
+
+    const handleDetailsShow = (key, setDetails, setAdditionalDetails, setRelatedDetails) => {
+
+        var uri = '/api/details?category=details&key=' + key;
+        fetch(uri, {
+            method: 'GET',
+            mode: 'cors'
+        }).then(response => {
+            return response.json();
+        }).then(text => {
+            setAdditionalDetails(text);
+        });
+
+        var productsUri = '/api/details?category=related&key=' + key;
+        fetch(productsUri, {
+            method: 'GET',
+            mode: 'cors'
+        }).then(response => {
+            return response.json();
+        }).then(text => {
+            setRelatedDetails(text);
+        });
+
+        setDetails(true);
+    }
+
+    const handleDetailsClose = (setDetails, setAdditionalDetails, setRelatedDetails) => {
+        setRelatedDetails([]);
+        setAdditionalDetails([]);
+        setDetails(false);
+    };
+
+    const [benefitsDetails, setBenefitsDetails] = React.useState(false);
+
+    const [benefitsAdditionalDetails, setBenefitsAdditionalDetails] = React.useState([]);
+    const [benefitsRelatedDetails, setBenefitsRelatedDetails] = React.useState([]);
+
+    const handleBenefitDetailsShow = (key) => {
+        handleDetailsShow(key, setBenefitsDetails, setBenefitsAdditionalDetails, setBenefitsRelatedDetails);
+    };
+
+
+
+    const handleBenefitDetailsClose = () => {
+        handleDetailsClose(setBenefitsDetails, setBenefitsAdditionalDetails, setBenefitsRelatedDetails);
+    };
+
+    const liabilities = [
+        { id: "1", value: "Home mortgage" },
+        { id: "2", value: "Car Loans" },
+        { id: "3", value: "Credit Card Bills" },
+        { id: "4", value: "Personal Loans" },
+        { id: "5", value: "Home Insurance" },
+        { id: "6", value: "Car Insurance" },
+        { id: "7", value: "Funeral expenses" }
+    ];
+
+    const [liabilitiesDetails, setLiabilitiesDetails] = React.useState(false);
+
+    const [liabilitiesAdditionalDetails, setLiabilitiesAdditionalDetails] = React.useState([]);
+    const [liabilitiesRelatedDetails, setLiabilitiesRelatedDetails] = React.useState([]);
+
+    const handleLiabilitiesDetailsShow = (key) => {
+        handleDetailsShow(key, setLiabilitiesDetails, setLiabilitiesAdditionalDetails, setLiabilitiesRelatedDetails);
+    };
+
+    const handleLiabilitiesDetailsClose = () => {
+        handleDetailsClose(setLiabilitiesDetails, setLiabilitiesAdditionalDetails, setLiabilitiesRelatedDetails);
+    };
+
+    const tax = [];
+    const legal = [];
+
+    const expenses = [
+        { id: "1", value: "Housing" },
+        { id: "2", value: "Transportation" },
+        { id: "3", value: "Utilities" },
+        { id: "4", value: "Survivor Life insurance" },
+        { id: "5", value: "Healthcare" },
+        { id: "6", value: "Education" },
+        { id: "7", value: "Recreation" }
+    ];
+
+    const [expensesDetails, setExpensesDetails] = React.useState(false);
+
+    const [expensesAdditionalDetails, setExpensesAdditionalDetails] = React.useState([]);
+    const [expensesRelatedDetails, setExpensesRelatedDetails] = React.useState([]);
+
+    const handleExpensesDetailsShow = (key) => {
+        handleDetailsShow(key, setExpensesDetails, setExpensesAdditionalDetails, setExpensesRelatedDetails);
+    };
+
+    const handleExpensesDetailsClose = () => {
+        handleDetailsClose(setExpensesDetails, setExpensesAdditionalDetails, setExpensesRelatedDetails);
+    };
+
+    //Footer - Start
+    //===================================================================================================
     function Copyright() {
         return (
             <Typography variant="body2" color="text.secondary" align="center">
@@ -255,6 +382,8 @@ function App() {
             </Typography>
         );
     }
+    //===================================================================================================
+    //Footer - End
 
     return (
         <ThemeProvider theme={theme}>
@@ -386,35 +515,78 @@ function App() {
                                         </TabList>
                                     </Box>
                                     <TabPanel value="1">
-                                        This section lists various instruments that may be applicable as Survivor benefits
-                                        <ul>
-                                            <li>Life Insurance</li>
-                                            <li>Social Security</li>
-                                            <li>401K</li>
-                                            <li>IRA</li>
-                                            <li>Savings Accounts</li>
-                                            <li>Brokerage accounts</li>
-                                            <li>HSA accounts</li>
-                                            <li>FSA accounts</li>
-                                            <li>Real Estate</li>
-                                            <li>AD&D</li>
-                                            <li>Term insurance</li>
-                                            <li>Mortgage Protection</li>
-                                        </ul>
-                                        Each of the instrument has a death benefit which will be transferred to the survivor(s)
+                                        <Box sx={{ display: "flex" }}>
+                                            <Collapse orientation="vertical" in={!benefitsDetails} timeout="auto" sx={benefitsDetails ? { width: 0 } : { width: "auto" }}>
+                                                <div>
+                                                    This section list various liabilities that you can leave behind which your survivor has to deal with or that will have to be paid from the money you left behind:
+                                                    <ul>
+                                                        {benefits.map((benefit) => (
+                                                            <li key={benefit.id}>{benefit.value} <MoreHorizIcon fontSize="small" color="secondary" sx={{ verticalAlign: "middle" }} onClick={() => handleBenefitDetailsShow(benefit.value)} /></li>
+                                                        ))}
+                                                    </ul>
+                                                    It is important to consider insurance on your high valued liabilities and make plans to reduce the other to as low as possible.
+                                                </div>
+                                            </Collapse>
+                                            <Collapse orientation="vertical" in={benefitsDetails} timeout="auto" sx={benefitsDetails ? { width: "auto" } : { width: 0 }}>
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <KeyboardArrowDownIcon onClick={handleBenefitDetailsClose} style={{ alignContent: "center" }} />
+                                                </div>
+                                                <div>
+                                                    <Divider />
+                                                    {benefitsAdditionalDetails.map((benefit) => (
+                                                        <Typography mt={2} gutterBottom>
+                                                            {benefit.Text}
+                                                        </Typography>
+                                                    ))}
+                                                    <Typography variant='h6' mt={2} gutterBottom>
+                                                        Related Products:
+                                                    </Typography>
+                                                    <ul>
+                                                        {benefitsRelatedDetails.map((benefit) => (
+                                                            <li key={benefit.Id}><b>{benefit.Name}</b>: {benefit.Text}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </Collapse>
+                                        </Box>
                                     </TabPanel>
                                     <TabPanel value="2">
-                                        This section list various liabilities that you can leave behind which your survivor has to deal with or that will have to be paid from the money you left behind:
-                                        <ul>
-                                            <li>Home mortgage</li>
-                                            <li>Car Loans</li>
-                                            <li>Credit Card Bills</li>
-                                            <li>Personal Loans</li>
-                                            <li>Home Insurance</li>
-                                            <li>Car Insurance</li>
-                                            <li>Funeral expenses</li>
-                                        </ul>
-                                        It is important to consider insurance on your high valued liabilities and make plans to reduce the other to as low as possible.
+                                        <Box sx={{ display: "flex" }}>
+                                            <Collapse orientation="vertical" in={!liabilitiesDetails} timeout="auto" sx={liabilitiesDetails ? { width: 0 } : { width: "auto" }}>
+                                                <div>
+                                                    This section lists various instruments that may be
+                                                    applicable as Survivor benefits
+                                                    <ul>
+                                                        {liabilities.map((liability) => (
+                                                            <li key={liability.id}>{liability.value} <MoreHorizIcon fontSize="small" color="secondary" sx={{ verticalAlign: "middle" }} onClick={() => handleLiabilitiesDetailsShow(liability.value)} /></li>
+                                                        ))}
+                                                    </ul>
+                                                    Each of the instrument has a death benefit which will
+                                                    be transferred to the survivor(s)
+                                                </div>
+                                            </Collapse>
+                                            <Collapse orientation="vertical" in={liabilitiesDetails} timeout="auto" sx={liabilitiesDetails ? { width: "auto" } : { width: 0 }}>
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <KeyboardArrowDownIcon onClick={handleLiabilitiesDetailsClose} style={{ alignContent: "center" }} />
+                                                </div>
+                                                <div>
+                                                    <Divider />
+                                                    {liabilitiesAdditionalDetails.map((liability) => (
+                                                        <Typography mt={2} gutterBottom>
+                                                            {liability.Text}
+                                                        </Typography>
+                                                    ))}
+                                                    <Typography variant='h6' mt={2} gutterBottom>
+                                                        Related Products:
+                                                    </Typography>
+                                                    <ul>
+                                                        {liabilitiesRelatedDetails.map((liability) => (
+                                                            <li key={liability.Id}><b>{liability.Name}</b>: {liability.Text}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </Collapse>
+                                        </Box>
                                     </TabPanel>
                                     <TabPanel value="3">
                                         It is important to understand the tax implication to the survivor on the passed assets. Understand which assets may attract tax and discount them appropriately.
@@ -433,16 +605,39 @@ function App() {
                                         </ul>
                                     </TabPanel>
                                     <TabPanel value="5">
-                                        Finally this is what is needed by your survivors to live comfortably for the rest of their life
-                                        <ul>
-                                            <li>Housing</li>
-                                            <li>Transportation</li>
-                                            <li>Utilities</li>
-                                            <li>Survivor Life insurance</li>
-                                            <li>Healthcare</li>
-                                            <li>Education</li>
-                                            <li>Recreation</li>
-                                        </ul>
+                                    <Box sx={{ display: "flex" }}>
+                                            <Collapse orientation="vertical" in={!expensesDetails} timeout="auto" sx={expensesDetails ? { width: 0 } : { width: "auto" }}>
+                                                <div>
+                                                Finally this is what is needed by your survivors to live comfortably for the rest of their life
+                                                    <ul>
+                                                        {expenses.map((expense) => (
+                                                            <li key={expense.id}>{expense.value} <MoreHorizIcon fontSize="small" color="secondary" sx={{ verticalAlign: "middle" }} onClick={() => handleExpensesDetailsShow(expense.value)} /></li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </Collapse>
+                                            <Collapse orientation="vertical" in={expensesDetails} timeout="auto" sx={expensesDetails ? { width: "auto" } : { width: 0 }}>
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <KeyboardArrowDownIcon onClick={handleExpensesDetailsClose} style={{ alignContent: "center" }} />
+                                                </div>
+                                                <div>
+                                                    <Divider />
+                                                    {expensesAdditionalDetails.map((expense) => (
+                                                        <Typography mt={2} gutterBottom>
+                                                            {expense.Text}
+                                                        </Typography>
+                                                    ))}
+                                                    <Typography variant='h6' mt={2} gutterBottom>
+                                                        Related Products:
+                                                    </Typography>
+                                                    <ul>
+                                                        {expensesRelatedDetails.map((expense) => (
+                                                            <li key={expense.Id}><b>{expense.Name}</b>: {expense.Text}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </Collapse>
+                                        </Box>
                                     </TabPanel>
                                 </TabContext>
                             </Box>
@@ -484,10 +679,10 @@ function App() {
                 sx={{ position: "fixed", bottom: 16, right: 16 }}
                 icon={
                     <Box sx={{ display: "flex" }}>
-                      <ChatBubbleOutlineIcon sx={{ mr: 0.5 }} />
-                      <Typography>Comments</Typography>
+                        <ChatBubbleOutlineIcon sx={{ mr: 0.5 }} />
+                        <Typography>Comments</Typography>
                     </Box>
-                  }
+                }
                 onClose={handleClose}
                 onOpen={handleOpen}
                 open={open}
@@ -546,7 +741,7 @@ function App() {
                                 autoFocus
                                 margin="dense"
                                 id="title"
-                                label="Title"
+                                label="Subject"
                                 type="email"
                                 fullWidth
                                 variant="standard"
