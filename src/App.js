@@ -50,6 +50,12 @@ import Collapse from "@mui/material/Collapse";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+import Fade from '@mui/material/Fade';
+import CircularProgress from '@mui/material/CircularProgress';
+
+
+import Footer from './components/Footer';
+
 const theme = createTheme({
     palette: {
         secondary: {
@@ -273,7 +279,10 @@ function App() {
         { id: "12", value: "Mortgage Protection" }
     ];
 
-    const handleDetailsShow = (key, setDetails, setAdditionalDetails, setRelatedDetails) => {
+    const handleDetailsShow = (key, setDetails, setAdditionalDetails, setRelatedDetails, setLoadingAdditionalDetails, setLoadingRelatedDetails) => {
+
+        setLoadingAdditionalDetails(true);
+        setLoadingRelatedDetails(true);
 
         var uri = '/api/details?category=details&key=' + key;
         fetch(uri, {
@@ -283,6 +292,7 @@ function App() {
             return response.json();
         }).then(text => {
             setAdditionalDetails(text);
+            setLoadingAdditionalDetails(false);
         });
 
         var productsUri = '/api/details?category=related&key=' + key;
@@ -293,6 +303,7 @@ function App() {
             return response.json();
         }).then(text => {
             setRelatedDetails(text);
+            setLoadingRelatedDetails(false);
         });
 
         setDetails(true);
@@ -309,8 +320,11 @@ function App() {
     const [benefitsAdditionalDetails, setBenefitsAdditionalDetails] = React.useState([]);
     const [benefitsRelatedDetails, setBenefitsRelatedDetails] = React.useState([]);
 
+    const [loadingBenefitsAdditionalDetails, setLoadingBenefitsAdditionalDetails] = React.useState(false);
+    const [loadingBenefitsRelatedDetails, setLoadingBenefitsRelatedDetails] = React.useState(false);
+
     const handleBenefitDetailsShow = (key) => {
-        handleDetailsShow(key, setBenefitsDetails, setBenefitsAdditionalDetails, setBenefitsRelatedDetails);
+        handleDetailsShow(key, setBenefitsDetails, setBenefitsAdditionalDetails, setBenefitsRelatedDetails, setLoadingBenefitsAdditionalDetails, setLoadingBenefitsRelatedDetails);
     };
 
 
@@ -334,8 +348,11 @@ function App() {
     const [liabilitiesAdditionalDetails, setLiabilitiesAdditionalDetails] = React.useState([]);
     const [liabilitiesRelatedDetails, setLiabilitiesRelatedDetails] = React.useState([]);
 
+    const [loadingLiabilitiesAdditionalDetails, setLoadingLiabilitiesAdditionalDetails] = React.useState(false);
+    const [loadingLiabilitiesRelatedDetails, setLoadingLiabilitiesRelatedDetails] = React.useState(false);
+
     const handleLiabilitiesDetailsShow = (key) => {
-        handleDetailsShow(key, setLiabilitiesDetails, setLiabilitiesAdditionalDetails, setLiabilitiesRelatedDetails);
+        handleDetailsShow(key, setLiabilitiesDetails, setLiabilitiesAdditionalDetails, setLiabilitiesRelatedDetails, setLoadingLiabilitiesAdditionalDetails, setLoadingLiabilitiesRelatedDetails);
     };
 
     const handleLiabilitiesDetailsClose = () => {
@@ -357,14 +374,18 @@ function App() {
     const [expensesAdditionalDetails, setExpensesAdditionalDetails] = React.useState([]);
     const [expensesRelatedDetails, setExpensesRelatedDetails] = React.useState([]);
 
+    const [loadingExpensesAdditionalDetails, setLoadingExpensesAdditionalDetails] = React.useState(false);
+    const [loadingExpensesRelatedDetails, setLoadingExpensesRelatedDetails] = React.useState(false);
+
     const handleExpensesDetailsShow = (key) => {
-        handleDetailsShow(key, setExpensesDetails, setExpensesAdditionalDetails, setExpensesRelatedDetails);
+        handleDetailsShow(key, setExpensesDetails, setExpensesAdditionalDetails, setExpensesRelatedDetails, setLoadingExpensesAdditionalDetails, setLoadingExpensesRelatedDetails);
     };
 
     const handleExpensesDetailsClose = () => {
         handleDetailsClose(setExpensesDetails, setExpensesAdditionalDetails, setExpensesRelatedDetails);
     };
 
+    /*
     //Footer - Start
     //===================================================================================================
     function Copyright() {
@@ -381,6 +402,7 @@ function App() {
     }
     //===================================================================================================
     //Footer - End
+    */
 
     return (
         <ThemeProvider theme={theme}>
@@ -535,6 +557,15 @@ function App() {
                                                             {benefit.Text}
                                                         </Typography>
                                                     ))}
+                                                    <Fade
+                                                        in={loadingBenefitsAdditionalDetails}
+                                                        style={{
+                                                            transitionDelay: loadingBenefitsAdditionalDetails ? '800ms' : '0ms',
+                                                        }}
+                                                        unmountOnExit
+                                                    >
+                                                        <CircularProgress  mt={2} />
+                                                    </Fade>
                                                     <Typography variant='h6' mt={2} gutterBottom>
                                                         Related Products:
                                                     </Typography>
@@ -543,6 +574,15 @@ function App() {
                                                             <li key={benefit.Id}><b>{benefit.Name}</b>: {benefit.Text}</li>
                                                         ))}
                                                     </ul>
+                                                    <Fade
+                                                        in={loadingBenefitsRelatedDetails}
+                                                        style={{
+                                                            transitionDelay: loadingBenefitsRelatedDetails ? '800ms' : '0ms',
+                                                        }}
+                                                        unmountOnExit
+                                                    >
+                                                        <CircularProgress mt={2} />
+                                                    </Fade>
                                                 </div>
                                             </Collapse>
                                         </Box>
@@ -602,10 +642,10 @@ function App() {
                                         </ul>
                                     </TabPanel>
                                     <TabPanel value="5">
-                                    <Box sx={{ display: "flex" }}>
+                                        <Box sx={{ display: "flex" }}>
                                             <Collapse orientation="vertical" in={!expensesDetails} timeout="auto" sx={expensesDetails ? { width: 0 } : { width: "auto" }}>
                                                 <div>
-                                                Finally this is what is needed by your survivors to live comfortably for the rest of their life
+                                                    Finally this is what is needed by your survivors to live comfortably for the rest of their life
                                                     <ul>
                                                         {expenses.map((expense) => (
                                                             <li key={expense.id}>{expense.value} <MoreHorizIcon fontSize="small" color="secondary" sx={{ verticalAlign: "middle" }} onClick={() => handleExpensesDetailsShow(expense.value)} /></li>
@@ -665,11 +705,7 @@ function App() {
                 </main>
             </Container>
 
-            <Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
-                <Container maxWidth="lg">
-                    <Copyright />
-                </Container>
-            </Box>
+            <Footer />
             <SpeedDial
                 FabProps={{ variant: "extended" }}
                 ariaLabel="SpeedDial tooltip example"

@@ -12,7 +12,9 @@
         "@types/react-dom": "latest",
         "react": "latest",
         "react-dom": "latest",
-        "react-scripts": "latest"
+        "react-scripts": "latest",
+        "react-router": "latest",
+        "react-router-dom": "latest"
     },
     "devDependencies": {
         "react-scripts": "latest"
