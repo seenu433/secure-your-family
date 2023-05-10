@@ -342,9 +342,6 @@ function App() {
         handleDetailsClose(setLiabilitiesDetails, setLiabilitiesAdditionalDetails, setLiabilitiesRelatedDetails);
     };
 
-    const tax = [];
-    const legal = [];
-
     const expenses = [
         { id: "1", value: "Housing" },
         { id: "2", value: "Transportation" },
