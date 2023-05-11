@@ -46,7 +46,7 @@ export default function About() {
                 <Grid item xs={12}>
                     <Typography variant='h6' gutterBottom>My Hosted Projects</Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12} md={3}>
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -65,7 +65,7 @@ export default function About() {
                         </CardActions>
                     </Card>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12} md={3}>
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

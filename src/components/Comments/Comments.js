@@ -25,6 +25,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
+import Fade from '@mui/material/Fade';
+import CircularProgress from '@mui/material/CircularProgress';
+
 function stringToColor(string) {
     let hash = 0;
     let i;
@@ -161,18 +164,18 @@ export default function Comments() {
         setOpenSubmitCommentDialog(false);
     };
 
-    const [openViewCommentDialog, setOpenViewCommentDialog] = React.useState(
-        false
-    );
+    const [openViewCommentDialog, setOpenViewCommentDialog] = React.useState(false);
+    const [loadingComments, setLoadingComments] = React.useState(false);
 
     const handleViewCommentOpen = () => {
-
+        setLoadingComments(true);
         fetch('/api/comments', {
             method: 'GET',
             mode: 'cors'
         }).then(response => {
             return response.json();
         }).then(text => {
+            setLoadingComments(false);
             setComments(text);
         });
 
@@ -182,6 +185,7 @@ export default function Comments() {
     const handleViewCommentClose = () => {
         setComments([]);
         setOpenViewCommentDialog(false);
+        setLoadingComments(false);
     };
 
     const descriptionElementRef = React.useRef(null);
@@ -325,6 +329,15 @@ export default function Comments() {
                         ref={descriptionElementRef}
                         tabIndex={-1}
                     >
+                        <Fade
+                            in={loadingComments}
+                            style={{
+                                transitionDelay: loadingComments ? '800ms' : '0ms',
+                            }}
+                            unmountOnExit
+                        >
+                            <CircularProgress mt={2} />
+                        </Fade>
                         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
 
                             {comments.map((commentItem) => (
