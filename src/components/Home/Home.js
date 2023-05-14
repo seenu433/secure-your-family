@@ -36,7 +36,7 @@ export default function Home() {
     const benefits = [
         { id: "1", value: "Life Insurance" },
         { id: "2", value: "Social Security" },
-        { id: "3", value: "401K" },
+        { id: "3", value: "Retirement 401K" },
         { id: "4", value: "IRA" },
         { id: "5", value: "Savings Accounts" },
         { id: "6", value: "Brokerage accounts" },
@@ -404,9 +404,9 @@ export default function Home() {
                 color: "white"
             }}>
                 <Typography variant="h6" gutterBottom>
-                    <ErrorIcon  style={{verticalAlign:"middle"}}/> Disclaimer
+                    <ErrorIcon style={{ verticalAlign: "middle" }} /> Disclaimer
                 </Typography>
-                <Typography  m={1}  gutterBottom>
+                <Typography m={1} gutterBottom>
                     The content discussed above is for education only, This is not a comprehensive list and it completely depends on the individuals situation. You should always consult with a licensed financial advisor.
                 </Typography>
             </Box>

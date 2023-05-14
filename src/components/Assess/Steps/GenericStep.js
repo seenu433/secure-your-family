@@ -14,7 +14,11 @@ export default function GenericStep(props) {
 
     const showDetails = (event) => {
         console.log(event.target.name);
-        getDetails(event.target.name);
+        if (event.target.name === "others") {
+            setRelatedProducts([]);
+        } else {
+            //getDetails(event.target.name);
+        }
     }
 
     const changeDetails = (event) => {
@@ -34,7 +38,6 @@ export default function GenericStep(props) {
         if (inProps.steps[category][key + "Details"] === undefined) {
 
             var categoryKey = categoryItems.find(item => item.key === key).value;
-            console.log(categoryKey);
             var productsUri = '/api/details?category=related&key=' + categoryKey;
             fetch(productsUri, {
                 method: 'GET',
@@ -47,8 +50,7 @@ export default function GenericStep(props) {
                 setRelatedProducts(text);
             });
         }
-        else
-        {
+        else {
             setRelatedProducts(inProps.steps[category][key + "Details"]);
         }
     }

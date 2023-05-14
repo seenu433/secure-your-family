@@ -112,8 +112,9 @@ const steps = ['Benefits', 'Liabilities', 'Tax', 'Expenses', 'Summary'];
 
 export default function Assess() {
     const [activeStep, setActiveStep] = React.useState(0);
-    const [assessmentData, setAssessmentData] = React.useState(
-        {
+
+    const getAssessmentDataStructure = () => {
+        return  {
             steps: {
                 benefits: {
                     index: 1,
@@ -132,12 +133,15 @@ export default function Assess() {
                 }
             }
         }
-    );
+    }
+
+    const [assessmentData, setAssessmentData] = React.useState(getAssessmentDataStructure());
 
     const handleNext = (inProps) => {
         setAssessmentData(inProps);
         if (activeStep === 4) {
             setActiveStep(0);
+            setAssessmentData(getAssessmentDataStructure());
         }
         else {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);

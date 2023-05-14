@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -19,6 +20,23 @@ import { RadialBarChart, RadialBar } from 'recharts';
 
 export default function Summary(props) {
   var inProps = props.inProps;
+  const [summary, setSummary] = React.useState({});
+
+  useEffect(() => {
+    // call api or anything
+    console.log(inProps);
+    var productsUri = '/api/assess';
+    fetch(productsUri, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(inProps.steps)
+    }).then(response => {
+        return response.json();
+    }).then(text => {
+        console.log(text);
+        setSummary(text);
+    });
+  }, []);
 
   const data = [
     {
@@ -101,7 +119,7 @@ export default function Summary(props) {
     <Grid item xs={12}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h6" gutterBottom>Your credit's in excellent shape !!!</Typography>
+          <Typography variant="h6" gutterBottom>{summary.status}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper

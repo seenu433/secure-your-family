@@ -4,7 +4,7 @@ import GenericStep from './GenericStep';
 export default function Tax(props) {
 
   const taxes = [
-    { id: "1", value: "Anticipated Taxes" }
+    { id: "1", value: "Anticipated Taxes", type: "number" }
   ];
 
   return (
