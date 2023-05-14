@@ -24,7 +24,6 @@ export default function Summary(props) {
 
   useEffect(() => {
     // call api or anything
-    console.log(inProps);
     var productsUri = '/api/assess';
     fetch(productsUri, {
         method: 'POST',
@@ -36,7 +35,7 @@ export default function Summary(props) {
         console.log(text);
         setSummary(text);
     });
-  }, []);
+  }, [inProps]);
 
   const data = [
     {

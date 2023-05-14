@@ -17,7 +17,7 @@ export default function GenericStep(props) {
         if (event.target.name === "others") {
             setRelatedProducts([]);
         } else {
-            //getDetails(event.target.name);
+            getDetails(event.target.name);
         }
     }
 
