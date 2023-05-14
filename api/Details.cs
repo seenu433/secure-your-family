@@ -78,6 +78,7 @@ namespace SecureYourFamily
 
             BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnection);
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+            
             BlobClient blobClient = containerClient.GetBlobClient(key);
 
             string completion = "";

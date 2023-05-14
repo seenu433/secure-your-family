@@ -6,39 +6,39 @@
         "@emotion/react": "latest",
         "@emotion/styled": "latest",
         "@mui/icons-material": "latest",
-        "@mui/material": "latest",
         "@mui/lab": "latest",
+        "@mui/material": "latest",
         "@types/react": "latest",
         "@types/react-dom": "latest",
         "react": "latest",
         "react-dom": "latest",
-        "react-scripts": "latest",
         "react-router": "latest",
-        "react-router-dom": "latest"
+        "react-router-dom": "latest",
+        "react-scripts": "latest",
+        "recharts": "^2.6.2"
     },
     "devDependencies": {
         "react-scripts": "latest"
-      },
+    },
     "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
-      "eject": "react-scripts eject"
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
     },
     "eslintConfig": {
-      "extends": "react-app"
+        "extends": "react-app"
     },
     "browserslist": {
-      "production": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-      ],
-      "development": [
-        "last 1 chrome version",
-        "last 1 firefox version",
-        "last 1 safari version"
-      ]
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
-  }
-  
+}

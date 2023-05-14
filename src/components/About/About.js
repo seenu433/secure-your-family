@@ -35,10 +35,10 @@ export default function About() {
                         In addition to my professional accomplishments, I am an avid learner and keep myself updated with the latest developments in the field. I am a strong believer in lifelong learning and constantly seeks opportunities to expand my knowledge and skills.
                     </Typography>
                     <Box mt={5}>
-                        <Link href="https://www.linkedin.com/in/srinivasa-padala/" underline="always">
+                        <Link href="https://github.com/seenu433" underline="always">
                             <GitHubIcon sx={{ mr: 2 }} fontSize="large" />
                         </Link>
-                        <Link href="https://github.com/seenu433" underline="always">
+                        <Link href="https://www.linkedin.com/in/srinivasa-padala/" underline="always">
                             <LinkedInIcon sx={{ mr: 2 }} fontSize="large" />
                         </Link>
                     </Box>
@@ -61,7 +61,7 @@ export default function About() {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                        <Link href='https://kind-coast-02c5bcd0f.3.azurestaticapps.net/' size="small">Learn More</Link>
+                            <Link href='https://kind-coast-02c5bcd0f.3.azurestaticapps.net/' size="small">Learn More</Link>
                         </CardActions>
                     </Card>
                 </Grid>
@@ -72,7 +72,6 @@ export default function About() {
                                 Secure Your Family
                             </Typography>
                             <Typography variant="h5" component="div">
-
                             </Typography>
                             <Typography variant="body2">
                                 The objective of this effort is to curate a checklist of instruments / instructions to financially secure your family in your eternal absence.

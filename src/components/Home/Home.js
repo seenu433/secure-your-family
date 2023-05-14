@@ -404,9 +404,9 @@ export default function Home() {
                 color: "white"
             }}>
                 <Typography variant="h6" gutterBottom>
-                    <ErrorIcon /> Disclaimer
+                    <ErrorIcon  style={{verticalAlign:"middle"}}/> Disclaimer
                 </Typography>
-                <Typography>
+                <Typography  m={1}  gutterBottom>
                     The content discussed above is for education only, This is not a comprehensive list and it completely depends on the individuals situation. You should always consult with a licensed financial advisor.
                 </Typography>
             </Box>

@@ -17,6 +17,15 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
+import Benefits from './Steps/Benefits';
+import Expenses from './Steps/Expenses';
+import Tax from './Steps/Tax';
+import Summary from './Steps/Summary';
+import Liabilities from './Steps/Liabilities';
+
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
         top: 22,
@@ -102,27 +111,128 @@ ColorlibStepIcon.propTypes = {
 const steps = ['Benefits', 'Liabilities', 'Tax', 'Expenses', 'Summary'];
 
 export default function Assess() {
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [assessmentData, setAssessmentData] = React.useState(
+        {
+            steps: {
+                benefits: {
+                    index: 1,
+                },
+                liabilities: {
+                    index: 2,
+                },
+                tax: {
+                    index: 3
+                },
+                expenses: {
+                    index: 4
+                },
+                summary: {
+                    index: 5
+                }
+            }
+        }
+    );
+
+    const handleNext = (inProps) => {
+        setAssessmentData(inProps);
+        if (activeStep === 4) {
+            setActiveStep(0);
+        }
+        else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
+
+    }
+
+    const handleBack = (inProps) => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
+
+    const getStepContent = (step) => {
+        switch (step) {
+            case 0:
+                return (<>
+                    <Benefits inProps={assessmentData} handleBack={handleBack} handleNext={handleNext} />
+                </>);
+            case 1:
+                return (<>
+                    <Liabilities inProps={assessmentData} handleBack={handleBack} handleNext={handleNext} />
+                </>);
+            case 2:
+                return (<>
+                    <Tax inProps={assessmentData} handleBack={handleBack} handleNext={handleNext} />
+                </>);
+            case 3:
+                return (<>
+                    <Expenses inProps={assessmentData} handleBack={handleBack} handleNext={handleNext} />
+                </>);
+            case 4:
+                return (<>
+                    <Summary inProps={assessmentData} handleBack={handleBack} handleNext={handleNext} />
+                </>);
+            default:
+                return 'Unknown step';
+        }
+    }
+
     return (
         <Grid item xs={12}>
             <Typography variant="h6" gutterBottom>
 
             </Typography>
             <Divider />
-            <Typography mt={5} mb={5} gutterBottom>
-                The assessments captures information about your current benefits, liabilities and expenses to summarize on your readiness.
-            </Typography>
-            <Typography mb={5} gutterBottom>
-                <ErrorIcon /> This feature is under development
-            </Typography>
-
             <Stack sx={{ width: '100%' }} spacing={4}>
-                <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
+                <Box sx={{
+                    marginTop: 5,
+                    position: "relative",
+                    p: { xs: 3 },
+                    pr: { md: 0 },
+                    background:
+                        "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+                    color: "white"
+                }}>
+                    <Typography variant="h6" >
+                        <ErrorIcon style={{ verticalAlign: "middle" }} /> Disclaimer
+                    </Typography>
+                    <Typography m={1} gutterBottom>
+                        The assessments captures information about your current benefits, liabilities and expenses to summarize on your readiness.
+                        The content presented here is for education only, this is not a comprehensive list and it completely depends on the individuals situation. You should always consult with a licensed financial advisor.
+                    </Typography>
+                </Box>
+                <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                     {steps.map((label) => (
                         <Step key={label}>
                             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
                         </Step>
                     ))}
                 </Stepper>
+                <Stack direction={{ md: 'row', xs: 'column' }} spacing={2} justifyContent='center'>
+                    <Grid xs={12} md={7} item container>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                flexGrow: 1,
+                                backgroundColor: (theme) =>
+                                    theme.palette.mode === '#fff',
+                            }}
+                        >
+                            {getStepContent(activeStep)}
+                        </Paper>
+                    </Grid>
+                    <Grid xs={12} md={3} item >
+                        <Paper
+                            sx={{
+                                p: 2,
+                                maxWidth: 500,
+                                flexGrow: 1,
+                                height: '100%',
+                                backgroundColor: 'grey.200',
+                            }}
+                        >
+                        </Paper>
+                    </Grid>
+                </Stack>
             </Stack>
         </Grid>
     );
