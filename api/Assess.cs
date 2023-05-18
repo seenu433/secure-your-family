@@ -160,6 +160,16 @@ namespace SecureYourFamily
                 summary.securescore = summary.survivalYears * 100 / 25;
             }
 
+            if(summary.securescore > 100)
+            {
+                summary.securescore = 100;
+            }
+
+            if(summary.survivalYears > 25)
+            {
+                summary.survivalYears = 25;
+            }
+
             summary.status = GetStatus(summary.survivalYears);
             return summary;
         }
