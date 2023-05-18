@@ -63,6 +63,7 @@ export default function Summary(props) {
       text.dataNetWorth = dataNetWorth;
 
        setSummary(text);
+       setSelected(2);
    });
 
    /*
