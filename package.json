@@ -10,12 +10,15 @@
         "@mui/material": "latest",
         "@types/react": "latest",
         "@types/react-dom": "latest",
+        "chart.js": "^4.3.0",
         "react": "latest",
+        "react-d3-speedometer": "^1.1.0",
         "react-dom": "latest",
+        "react-gauge-chart": "^0.4.1",
+        "react-minimal-pie-chart": "^8.4.0",
         "react-router": "latest",
         "react-router-dom": "latest",
-        "react-scripts": "latest",
-        "recharts": "^2.6.2"
+        "react-scripts": "latest"
     },
     "devDependencies": {
         "react-scripts": "latest"

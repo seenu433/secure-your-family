@@ -32,9 +32,6 @@ export default function GenericStep(props) {
     }
 
     const getDetails = (key) => {
-
-        console.log(key);
-        console.log(inProps.steps[category][key + "Details"]);
         if (inProps.steps[category][key + "Details"] === undefined) {
 
             var categoryKey = categoryItems.find(item => item.key === key).value;
@@ -97,6 +94,16 @@ export default function GenericStep(props) {
                             {getField(benefit)}
                         </Grid>
                     ))}
+                    <Grid item xs={12}>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }} justifyContent="space-between">
+                            <Button disabled={props.isFirst} onClick={() => props.handleBack(inProps)} sx={{ mr: 1 }}>
+                                Back
+                            </Button>
+                            <Button onClick={() => props.handleNext(inProps)}>
+                                Continue
+                            </Button>
+                        </Box>
+                    </Grid>
                 </Grid>
                 <Grid item xs={6}>
                     <ul>
@@ -106,14 +113,6 @@ export default function GenericStep(props) {
                     </ul>
                 </Grid>
             </Grid>
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }} justifyContent="space-between">
-                <Button disabled={props.isFirst} onClick={() => props.handleBack(inProps)} sx={{ mr: 1 }}>
-                    Back
-                </Button>
-                <Button onClick={() => props.handleNext(inProps)}>
-                    Continue
-                </Button>
-            </Box>
         </Grid>
     );
 }
