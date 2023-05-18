@@ -119,8 +119,7 @@ namespace SecureYourFamily
                                      GetValue(root.benefits.terminsurance) +
                                      GetValue(root.benefits.others);
 
-            summary.totalliabilities = GetValue(root.liabilities.homemortgage) +
-                                       GetValue(root.liabilities.carloans) +
+            summary.totalliabilities = GetValue(root.liabilities.carloans) +
                                        GetValue(root.liabilities.creditcardbills) +
                                        GetValue(root.liabilities.personalloans) +
                                        GetValue(root.liabilities.homeinsurance) +
@@ -137,6 +136,11 @@ namespace SecureYourFamily
 
             summary.networth = summary.totalbenefits - summary.totalliabilities - summary.totaltaxes;
 
+            if(summary.networth < 0)
+            {
+                summary.networth = 0;
+            }
+
             summary.totalexpenses = GetValue(root.expenses.housing) +
                                     GetValue(root.expenses.transportation) +
                                     GetValue(root.expenses.utilities) +
@@ -145,9 +149,16 @@ namespace SecureYourFamily
                                     GetValue(root.expenses.recreation) +
                                     GetValue(root.expenses.others);
 
-            summary.survivalYears = summary.networth / summary.totalexpenses;
-
-            summary.securescore = summary.survivalYears*100/25;
+            if (summary.totalexpenses <= 0 || summary.networth <= 0)
+            {
+                summary.survivalYears = 0;
+                summary.securescore = 0;
+            }
+            else
+            {
+                summary.survivalYears = (summary.networth / summary.totalexpenses);
+                summary.securescore = summary.survivalYears * 100 / 25;
+            }
 
             summary.status = GetStatus(summary.survivalYears);
             return summary;

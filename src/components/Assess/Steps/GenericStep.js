@@ -32,7 +32,7 @@ export default function GenericStep(props) {
     }
 
     const getDetails = (key) => {
-        if (inProps.steps[category][key + "Details"] === undefined) {
+        if (inProps.details[category][key + "Details"] === undefined) {
 
             var categoryKey = categoryItems.find(item => item.key === key).value;
             var productsUri = '/api/details?category=related&key=' + categoryKey;
@@ -42,13 +42,12 @@ export default function GenericStep(props) {
             }).then(response => {
                 return response.json();
             }).then(text => {
-                inProps.steps[category][key + "Details"] = text;
-                console.log(text);
+                inProps.details[category][key + "Details"] = text;
                 setRelatedProducts(text);
             });
         }
         else {
-            setRelatedProducts(inProps.steps[category][key + "Details"]);
+            setRelatedProducts(inProps.details[category][key + "Details"]);
         }
     }
 

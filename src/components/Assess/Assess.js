@@ -114,7 +114,7 @@ export default function Assess() {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const getAssessmentDataStructure = () => {
-        return  {
+        return {
             steps: {
                 benefits: {
                     index: 1,
@@ -131,6 +131,20 @@ export default function Assess() {
                 summary: {
                     index: 5
                 }
+            },
+            details: {
+                benefits: {
+                    index: 1,
+                },
+                liabilities: {
+                    index: 2,
+                },
+                tax: {
+                    index: 3
+                },
+                expenses: {
+                    index: 4
+                }
             }
         }
     }
@@ -141,7 +155,9 @@ export default function Assess() {
         setAssessmentData(inProps);
         if (activeStep === 4) {
             setActiveStep(0);
-            setAssessmentData(getAssessmentDataStructure());
+            var assesmentStructure = getAssessmentDataStructure();
+            assesmentStructure.details = inProps.details;
+            setAssessmentData(assesmentStructure);
         }
         else {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);

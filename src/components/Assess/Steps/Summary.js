@@ -40,64 +40,64 @@ export default function Summary(props) {
   });
 
   useEffect(() => {
-   // call api or anything
-   var productsUri = '/api/assess';
-   fetch(productsUri, {
-       method: 'POST',
-       mode: 'cors',
-       body: JSON.stringify(inProps.steps)
-   }).then(response => {
-       return response.json();
-   }).then(text => {
-       console.log(text);
+    // call api or anything
+    var productsUri = '/api/assess';
+    fetch(productsUri, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(inProps.steps)
+    }).then(response => {
+      return response.json();
+    }).then(text => {
+      console.log(text);
 
-       var dataNetWorth = [
+      var dataNetWorth = [
         { title: 'Liabilities', value: 10, color: '#E38627' },
         { title: 'Taxes', value: 5, color: '#C13C37' },
         { title: 'Net Worth', value: 6, color: '#6A2135' },
       ];
-  
+
       dataNetWorth[0].value = text.totalliabilities;
       dataNetWorth[1].value = text.totaltaxes;
       dataNetWorth[2].value = text.networth;
       text.dataNetWorth = dataNetWorth;
 
-       setSummary(text);
-       setSelected(2);
-   });
+      setSummary(text);
+      setSelected(2);
+    });
 
-   /*
-    var text = {
-      "index": 4,
-      "status": "I am sorry, I don't have enough information to assess your status.",
-      "totalbenefits": 15,
-      "totalliabilities": 3,
-      "totaltaxes": 1,
-      "networth": 11,
-      "totalexpenses": 1,
-      "survivalYears": 11,
-      "securescore": 60,
-      "movers": [{ index: 1, item: "This is a positive recommendation", status: "green" },
-      { index: 2, item: "This is a positive recommendation", status: "green" },
-      { index: 4, item: "This is a positive recommendation", status: "red" }],
-      "recommendations": [{ index: 1, item: "This is a positive recommendation", status: "green" },
-      { index: 2, item: "This is a positive recommendation", status: "green" },
-      { index: 4, item: "This is a positive recommendation", status: "red" },]
-    };
-
-    var dataNetWorth = [
-      { title: 'Liabilities', value: 10, color: '#E38627' },
-      { title: 'Taxes', value: 5, color: '#C13C37' },
-      { title: 'Net Worth', value: 6, color: '#6A2135' },
-    ];
-
-    dataNetWorth[0].value = text.totalliabilities;
-    dataNetWorth[1].value = text.totaltaxes;
-    dataNetWorth[2].value = text.networth;
-    text.dataNetWorth = dataNetWorth;
-
-    setSummary(text);
-    */
+    /*
+     var text = {
+       "index": 4,
+       "status": "I am sorry, I don't have enough information to assess your status.",
+       "totalbenefits": 15,
+       "totalliabilities": 3,
+       "totaltaxes": 1,
+       "networth": 11,
+       "totalexpenses": 1,
+       "survivalYears": 11,
+       "securescore": 60,
+       "movers": [{ index: 1, item: "This is a positive recommendation", status: "green" },
+       { index: 2, item: "This is a positive recommendation", status: "green" },
+       { index: 4, item: "This is a positive recommendation", status: "red" }],
+       "recommendations": [{ index: 1, item: "This is a positive recommendation", status: "green" },
+       { index: 2, item: "This is a positive recommendation", status: "green" },
+       { index: 4, item: "This is a positive recommendation", status: "red" },]
+     };
+ 
+     var dataNetWorth = [
+       { title: 'Liabilities', value: 10, color: '#E38627' },
+       { title: 'Taxes', value: 5, color: '#C13C37' },
+       { title: 'Net Worth', value: 6, color: '#6A2135' },
+     ];
+ 
+     dataNetWorth[0].value = text.totalliabilities;
+     dataNetWorth[1].value = text.totaltaxes;
+     dataNetWorth[2].value = text.networth;
+     text.dataNetWorth = dataNetWorth;
+ 
+     setSummary(text);
+     */
 
   }, [inProps]);
 
@@ -163,19 +163,19 @@ export default function Summary(props) {
                 theme.palette.mode === '#eaeaf0',
             }}
           >
-              <ReactSpeedometer
-                maxValue={25}
-                minValue={0}
-                width={200}
-                height={140}
-                value={summary.survivalYears}
-                needleHeightRatio={0.7}
-                needleTransition="easeQuadIn"
-                needleTransitionDuration={1000}
-                needleColor="black"
-                colors={["#ff0000", "#00ffff", "#00cccc"]}
-                segments={5}
-              />
+            <ReactSpeedometer
+              maxValue={25}
+              minValue={0}
+              width={200}
+              height={140}
+              value={summary.survivalYears}
+              needleHeightRatio={0.7}
+              needleTransition="easeQuadIn"
+              needleTransitionDuration={1000}
+              needleColor="black"
+              colors={["#ff0000", "#00ffff", "#00cccc"]}
+              segments={5}
+            />
             <Stack direction='row' justifyContent='center'><Typography variant='h6' gutterBottom>Years Secured</Typography></Stack>
           </Paper>
         </Grid>
@@ -202,7 +202,7 @@ export default function Summary(props) {
               />
             </Box>
             <Box bottom={0}>
-            <Stack direction='row' justifyContent='center' bottom={0}><Typography variant='h6' gutterBottom>Secure Score</Typography></Stack></Box>
+              <Stack direction='row' justifyContent='center' bottom={0}><Typography variant='h6' gutterBottom>Secure Score</Typography></Stack></Box>
           </Paper>
         </Grid>
         <Grid item xs={12}>
