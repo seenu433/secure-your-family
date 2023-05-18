@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -21,8 +21,26 @@ import Stack from '@mui/material/Stack';
 
 import { PieChart } from "react-minimal-pie-chart";
 
-
 export default function Summary(props) {
+
+  const useCheckMobileScreen = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+    const handleWindowSizeChange = () => {
+      setWidth(window.innerWidth);
+    }
+
+    useEffect(() => {
+      window.addEventListener('resize', handleWindowSizeChange);
+      return () => {
+        window.removeEventListener('resize', handleWindowSizeChange);
+      }
+    }, []);
+
+    return (width <= 768);
+  }
+
+  console.log(useCheckMobileScreen());
+
   var inProps = props.inProps;
   const [summary, setSummary] = React.useState({
     "index": 4,
@@ -49,55 +67,19 @@ export default function Summary(props) {
     }).then(response => {
       return response.json();
     }).then(text => {
-      console.log(text);
 
       var dataNetWorth = [
-        { title: 'Liabilities', value: 10, color: '#E38627' },
-        { title: 'Taxes', value: 5, color: '#C13C37' },
-        { title: 'Net Worth', value: 6, color: '#6A2135' },
+        { title: 'Liabilities', value: 10, color: 'grey', label: 'L' },
+        { title: 'Net Worth', value: 6, color: '#E38627', label: 'N' },
       ];
 
-      dataNetWorth[0].value = text.totalliabilities;
-      dataNetWorth[1].value = text.totaltaxes;
-      dataNetWorth[2].value = text.networth;
+      dataNetWorth[0].value = text.totalliabilities + text.totaltaxes;
+      dataNetWorth[1].value = text.networth;
       text.dataNetWorth = dataNetWorth;
 
       setSummary(text);
-      setSelected(2);
+      setSelected(1);
     });
-
-    /*
-     var text = {
-       "index": 4,
-       "status": "I am sorry, I don't have enough information to assess your status.",
-       "totalbenefits": 15,
-       "totalliabilities": 3,
-       "totaltaxes": 1,
-       "networth": 11,
-       "totalexpenses": 1,
-       "survivalYears": 11,
-       "securescore": 60,
-       "movers": [{ index: 1, item: "This is a positive recommendation", status: "green" },
-       { index: 2, item: "This is a positive recommendation", status: "green" },
-       { index: 4, item: "This is a positive recommendation", status: "red" }],
-       "recommendations": [{ index: 1, item: "This is a positive recommendation", status: "green" },
-       { index: 2, item: "This is a positive recommendation", status: "green" },
-       { index: 4, item: "This is a positive recommendation", status: "red" },]
-     };
- 
-     var dataNetWorth = [
-       { title: 'Liabilities', value: 10, color: '#E38627' },
-       { title: 'Taxes', value: 5, color: '#C13C37' },
-       { title: 'Net Worth', value: 6, color: '#6A2135' },
-     ];
- 
-     dataNetWorth[0].value = text.totalliabilities;
-     dataNetWorth[1].value = text.totaltaxes;
-     dataNetWorth[2].value = text.networth;
-     text.dataNetWorth = dataNetWorth;
- 
-     setSummary(text);
-     */
 
   }, [inProps]);
 
@@ -141,7 +123,7 @@ export default function Summary(props) {
               segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
               segmentsShift={(index) => (index === selected ? 6 : 1)}
               animate
-              label={({ dataEntry }) => dataEntry.value}
+              label={({ dataEntry }) => dataEntry.value + ' (' + dataEntry.label + ')'}
               labelPosition={100 - lineWidth / 2}
               labelStyle={{
                 fill: '#fff',
@@ -166,8 +148,8 @@ export default function Summary(props) {
             <ReactSpeedometer
               maxValue={25}
               minValue={0}
-              width={200}
-              height={140}
+              width={useCheckMobileScreen() ? 300 : 200}
+              height={useCheckMobileScreen() ? 160 : 110}
               value={summary.survivalYears}
               needleHeightRatio={0.7}
               needleTransition="easeQuadIn"
@@ -176,7 +158,7 @@ export default function Summary(props) {
               colors={["#ff0000", "#00ffff", "#00cccc"]}
               segments={5}
             />
-            <Stack direction='row' justifyContent='center'><Typography variant='h6' gutterBottom>Years Secured</Typography></Stack>
+            <Stack direction='row' justifyContent='center' paddingTop={8}><Typography variant='h6' gutterBottom>Years Secured</Typography></Stack>
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -201,8 +183,9 @@ export default function Summary(props) {
                 formatTextValue={(value) => value}
               />
             </Box>
-            <Box bottom={0}>
-              <Stack direction='row' justifyContent='center' bottom={0}><Typography variant='h6' gutterBottom>Secure Score</Typography></Stack></Box>
+            <Box>
+              <Stack direction='row' justifyContent='center'  paddingTop={7}><Typography variant='h6' gutterBottom>Secure Score</Typography></Stack>
+            </Box>
           </Paper>
         </Grid>
         <Grid item xs={12}>
